@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebMVC_0516.Models.DemoData.Student>
+@{
+    int seqNo = 1;
+}
+
+<div class="text-center">
+    <h1>學生管理</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>序號</th>
+                <th>學生名稱</th>
+                <th>學生學號</th>
+                <th>GitHub連結</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@seqNo</td>
+                    <td>@item.studentName</td>
+                    <td>@item.studentNo</td>
+                    <td>@item.gitHubLink</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.studentNo })
+                        @Html.ActionLink("Details", "Details", new { id = item.studentNo })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.studentNo })
+                    </td>
+                </tr>
+                seqNo++;
+            }
+        </tbody>
+    </table>
+</div>
