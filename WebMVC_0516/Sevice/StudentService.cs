@@ -94,5 +94,25 @@ namespace WebMVC_0516.Sevice
             studentGithubs.Add(new Student("B10956250", " 薛丞涵", " https://github.com/xuechenghan"));
             studentGithubs.Add(new Student("B10756036", " 陳婉茹", ""));
         }
+
+        public Student GetStudentByStudentNo(string studentNo)
+        {
+            return studentGithubs.FirstOrDefault(x => x.studentNo == studentNo);
+        }
+
+        public bool UpdateStudent(Student student)
+        {
+            try
+            {
+                var data = studentGithubs.Find(x => x.studentNo == student.studentNo);
+                data.studentName = student.studentName;
+                data.gitHubLink = student.gitHubLink;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

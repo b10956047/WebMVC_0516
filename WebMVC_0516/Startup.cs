@@ -26,7 +26,7 @@ namespace WebMVC_0516
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<MyCoutomService>();
-            services.AddScoped<IStudentService, StudentService>();
+            services.AddSingleton<IStudentService, StudentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

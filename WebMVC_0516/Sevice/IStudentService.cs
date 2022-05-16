@@ -11,5 +11,9 @@ namespace WebMVC_0516.Sevice
         List<Student> GetStudents();
 
         (int total, List<Student>) GetStudents(int offset, int count);
+
+        Student GetStudentByStudentNo(string studentNo);
+
+        bool UpdateStudent(Student student);
     }
 }

@@ -27,7 +27,7 @@
                     <td>@item.studentNo</td>
                     <td>@item.gitHubLink</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.studentNo })
+                        @Html.ActionLink("修改", "Update", new { studentNo = item.studentNo })
                         @Html.ActionLink("Details", "Details", new { id = item.studentNo })
                         @Html.ActionLink("Delete", "Delete", new { id = item.studentNo })
                     </td>

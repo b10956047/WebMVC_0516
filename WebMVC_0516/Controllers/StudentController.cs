@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WebMVC_0516.Models.DemoData;
 using WebMVC_0516.Sevice;
 
 namespace WebMVC_0516.Controllers
@@ -27,6 +28,34 @@ namespace WebMVC_0516.Controllers
             ViewData["nowPage"] = nowPage;
 
             return View(list);
+        }
+        public IActionResult Update(string studentNo)
+        {
+            var student = _studentService.GetStudentByStudentNo(studentNo);
+            if(student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
+        [HttpPost]
+        public IActionResult Update()
+        {
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                _studentService.UpdateStudent(student);
+                return RedirectToAction("Index");
+            }
+            return View(student);
         }
     }
 }
