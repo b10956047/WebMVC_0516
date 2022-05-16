@@ -17,16 +17,20 @@ namespace WebMVC_0516.Controllers
             _studentService = studentService;
         }
 
-        public IActionResult Index(int nowPage = 1)
+        [HttpPost]
+        public IActionResult Index(Dictionary<string, string> queryDic, int nowPage = 1)
         {
             //var list = _studentService.GetStudents();
             int count = 10;
             int offset = (nowPage - 1) * count;
-            var (total, list) = _studentService.GetStudents(offset, count);
+            var (total, list) = _studentService.GetStudents(offset, count, queryDic);
 
             ViewData["Total"] = total;
             ViewData["nowPage"] = nowPage;
 
+            ViewData["query_studentName"] = queryDic["query_studentName"];
+            ViewData["query_studentNo"] = queryDic["query_studentNo"];
+            ViewData["query_gitHubLink"] = queryDic["query_gitHubLink"];
             return View(list);
         }
         public IActionResult Update(string studentNo)
@@ -54,6 +58,36 @@ namespace WebMVC_0516.Controllers
             {
                 _studentService.UpdateStudent(student);
                 return RedirectToAction("Index");
+            }
+            return View(student);
+        }
+
+        public IActionResult Delete(string studentNo)
+        {
+            _studentService.DeleteStudent(studentNo);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Student student)
+        {
+            _studentService.CreateStudent(student);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Detail(string studentNo)
+        {
+            var student = _studentService.GetStudentByStudentNo(studentNo);
+            
+            if(student == null)
+            {
+                return NotFound();
             }
             return View(student);
         }

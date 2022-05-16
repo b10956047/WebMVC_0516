@@ -12,12 +12,12 @@ namespace WebMVC_0516.Sevice
 
         public List<Student> GetStudents()
         {
-            return studentGithubs;
+            return studentGithubs.Where(x => ! x.isDelete).ToList();
         }
 
         public (int total, List<Student>) GetStudents(int offset, int count)
         {
-            return (studentGithubs.Count, studentGithubs.Skip(offset).Take(count).ToList());
+            return (studentGithubs.Count(x => !x.isDelete), studentGithubs.Where(x => !x.isDelete).Skip(offset).Take(count).ToList());
         }
 
         public StudentService()
@@ -107,6 +107,56 @@ namespace WebMVC_0516.Sevice
                 var data = studentGithubs.Find(x => x.studentNo == student.studentNo);
                 data.studentName = student.studentName;
                 data.gitHubLink = student.gitHubLink;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteStudent(string studentNo)
+        {
+            try
+            {
+                var data = studentGithubs.Find(x => x.studentNo == studentNo);
+                data.isDelete = true;
+                data.updateDateTime = DateTime.Now;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public (int total, List<Student>) GetStudents(int offset, int count, Dictionary<string, string> queryDic)
+        {
+            var list = GetStudents();
+
+            if (!string.IsNullOrWhiteSpace(queryDic["studentName"]))
+            {
+                list = list.Where(x => x.studentName.Contains(queryDic["studentName"])).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryDic["studentNo"]))
+            {
+                list = list.Where(x => x.studentNo.Contains(queryDic["studentNo"])).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryDic["gitHubLink"]))
+            {
+                list = list.Where(x => x.gitHubLink.Contains(queryDic["gitHubLink"])).ToList();
+            }
+            return (list.Count, list.Skip(offset).Take(count).ToList());
+        }
+
+        public bool CreateStudent(Student student)
+        {
+            try
+            {
+                student.creDataTime = DateTime.Now;
+                studentGithubs.Add(student);
                 return true;
             }
             catch (Exception)
