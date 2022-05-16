@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<WebMVC_0516.Models.DemoData.Student>
 @{
-    int seqNo = 1;
+    int total = int.Parse(ViewData["Total"].ToString());//全部筆數
+    int pageCount = total / 10 + (total % 10 > 0 ? 1 : 0);//分成幾頁
+    int nowPage = int.Parse(ViewData["nowPage"].ToString());//目前在第幾頁
+    int seqNo = 1 + (nowPage - 1) * 10;//流水號
 }
 
 <div class="text-center">
@@ -34,3 +37,25 @@
         </tbody>
     </table>
 </div>
+@*分頁區 pagenation*@
+@if (pageCount > 0)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if (nowPage > 1)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-nowPage="@(nowPage-1)">Previous</a></li>
+            }
+            @for (int i = 1; i <= pageCount; i++)
+            {
+                var active = (i == nowPage) ? "active" : "";
+                <li class="page-item @active"><a class="page-link" asp-action="Index" asp-route-nowPage="@i">@i</a></li>
+            }
+            @if (nowPage < pageCount)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-nowPage="@(nowPage+1)">Next</a></li>
+            }
+        </ul>
+
+    </nav>
+}

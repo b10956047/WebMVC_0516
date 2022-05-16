@@ -14,6 +14,12 @@ namespace WebMVC_0516.Sevice
         {
             return studentGithubs;
         }
+
+        public (int total, List<Student>) GetStudents(int offset, int count)
+        {
+            return (studentGithubs.Count, studentGithubs.Skip(offset).Take(count).ToList());
+        }
+
         public StudentService()
         {
             studentGithubs.Add(new Student("B10756002", " 楊福安", " https://github.com/fuan0307"));

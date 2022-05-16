@@ -9,5 +9,7 @@ namespace WebMVC_0516.Sevice
     public interface IStudentService
     {
         List<Student> GetStudents();
+
+        (int total, List<Student>) GetStudents(int offset, int count);
     }
 }

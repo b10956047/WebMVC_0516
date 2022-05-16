@@ -15,9 +15,17 @@ namespace WebMVC_0516.Controllers
         {
             _studentService = studentService;
         }
-        public IActionResult Index()
+
+        public IActionResult Index(int nowPage = 1)
         {
-            var list = _studentService.GetStudents();
+            //var list = _studentService.GetStudents();
+            int count = 10;
+            int offset = (nowPage - 1) * count;
+            var (total, list) = _studentService.GetStudents(offset, count);
+
+            ViewData["Total"] = total;
+            ViewData["nowPage"] = nowPage;
+
             return View(list);
         }
     }
