@@ -155,7 +155,7 @@ namespace WebMVC_0516.Sevice
         {
             try
             {
-                student.creDataTime = DateTime.Now;
+                student.creDateTime = DateTime.Now;
                 studentGithubs.Add(student);
                 return true;
             }

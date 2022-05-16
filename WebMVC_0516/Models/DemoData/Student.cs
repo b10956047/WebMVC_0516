@@ -32,9 +32,7 @@ namespace WebMVC_0516.Models.DemoData
         public string gitHubLink { get; set; }
 
         public bool isDelete { get; set; }
-
-        public DateTime creDataTime { get; set; }
-
+        public DateTime creDateTime { get; set; }
         public DateTime updateDateTime { get; set; }
 
         public Student(string studentNo, string studentName, string gitHubLink)

@@ -9,7 +9,7 @@ namespace WebMVC_0516.Models
     {
         bool isDelete { get; set; }
 
-        DateTime creDataTime { get; set; }
+        DateTime creDateTime { get; set; }
 
         DateTime updateDateTime { get; set; }
     }
