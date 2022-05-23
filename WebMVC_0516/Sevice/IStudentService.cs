@@ -13,11 +13,11 @@ namespace WebMVC_0516.Sevice
         (int total, List<Student>) GetStudents(int offset, int count);
         (int total, List<Student>) GetStudents(int offset, int count, Dictionary<string, string> queryDic);
 
-        Student GetStudentByStudentNo(string studentNo);
+        public Student GetStudentByStudentNo(string studentNo);
 
-        bool UpdateStudent(Student student);
+        public bool UpdateStudent(Student student);
 
-        bool DeleteStudent(string studentNo);
+        public bool DeleteStudent(string studentNo);
 
         bool CreateStudent(Student student);
     }

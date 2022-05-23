@@ -12,7 +12,7 @@ namespace WebMVC_0516.Sevice
 
         public List<Student> GetStudents()
         {
-            return studentGithubs.Where(x => ! x.isDelete).ToList();
+            return studentGithubs.Where(x => !x.isDelete).ToList();
         }
 
         public (int total, List<Student>) GetStudents(int offset, int count)

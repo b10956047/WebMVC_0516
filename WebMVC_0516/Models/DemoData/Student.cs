@@ -14,7 +14,7 @@ namespace WebMVC_0516.Models.DemoData
         /// 學號
         /// </summary>
         [Key]
-        [DisplayName("學號")]
+        [DisplayName("學生學號")]
         public string studentNo { get; set; }
 
         /// <summary>
@@ -31,8 +31,17 @@ namespace WebMVC_0516.Models.DemoData
         [DisplayName("GitHub連結")]
         public string gitHubLink { get; set; }
 
+        /// <summary>
+        /// 是否刪除
+        /// </summary>
         public bool isDelete { get; set; }
+        /// <summary>
+        /// 建立時間
+        /// </summary>
         public DateTime creDateTime { get; set; }
+        /// <summary>
+        /// 修改時間
+        /// </summary>
         public DateTime updateDateTime { get; set; }
 
         public Student(string studentNo, string studentName, string gitHubLink)

@@ -12,9 +12,9 @@
 }
 
 <div class="text-center">
-    <h1>學生管理</h1>
+    <h1 onclick="alert('aaa')">學生管理</h1>
 
-    <form asp-action="Index" class="card" id="formIndex">
+    <form asp-action="Index" class="card text-center" id="formIndex">
         <h5 class="card-header">查詢條件</h5>
         <div class="card-body">
             <dl class="row">
@@ -56,24 +56,27 @@
                 <th>學生學號</th>
                 <th>GitHub連結</th>
                 @*<th>是否刪除</th>*@
+                @*<th>修改時間</th>*@
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@seqNo</td>
-                    <td>@item.studentName</td>
-                    <td>@item.studentNo</td>
-                    <td>@item.gitHubLink</td>
-                    @*<td>@item.isDelete</td>*@
-                    <td>
-                        @Html.ActionLink("修改", "Update", new { studentNo = item.studentNo })
-                        @Html.ActionLink("明細", "Detail", new { studentNo = item.studentNo })
-                        @Html.ActionLink("刪除", "Delete", new { studentNo = item.studentNo })
-                    </td>
-                </tr>
+            <tr>
+                <td>@seqNo</td>
+                <td>@item.studentName</td>
+                <td>@item.studentNo</td>
+                <td>@item.gitHubLink</td>
+                @*<td>@item.isDelete</td>*@
+                @*<td>@item.updateDateTime</td>*@
+            <td>
+                @Html.ActionLink("修改", "Update", new { studentNo = item.studentNo })
+                @Html.ActionLink("刪除", "Delete", new { studentNo = item.studentNo })
+                @Html.ActionLink("詳細資料", "Detail", new { studentNo = item.studentNo })
+                @*@Html.ActionLink("刪除", "Delete", new { studentNo = item.studentNo }, new { onclick = "return confirm('" + item.studentNo + "確定要刪除這位學生?" })*@
+            </td>
+            </tr>
                 seqNo++;
             }
         </tbody>
@@ -85,16 +88,16 @@
             <ul class="pagination">
                 @if (nowPage > 1)
                 {
-                    <li class="page-item"><a class="page-link" asp-action="Index" asp-route-nowPage="@(nowPage-1)">Previous</a></li>
+                    <li class="page-item"><a class="page-link" asp-action="Index" date-topage="@(nowPage-1)">上一頁</a></li>
                 }
                 @for (int i = 1; i <= pageCount; i++)
                 {
                     var active = (i == nowPage) ? "active" : "";
-                    <li class="page-item @active"><a class="page-link" asp-action="Index" asp-route-nowPage="@i">@i</a></li>
+                    <li class="page-item @active"><a class="page-link" asp-action="Index" date-topage="@i">@i</a></li>
                 }
                 @if (nowPage < pageCount)
                 {
-                    <li class="page-item"><a class="page-link" asp-action="Index" asp-route-nowPage="@(nowPage+1)">Next</a></li>
+                    <li class="page-item"><a class="page-link" asp-action="Index" date-topage="@(nowPage+1)">下一頁</a></li>
                 }
             </ul>
 
@@ -104,9 +107,9 @@
 
 <script>
     ///分頁導覽列
-    var element = document.getElementsByClassName('page-link');
-    for (var i = 0; i < element.length; i++) {
-        element[i].onclick = function () {
+    var pageitems = document.getElementsByClassName('page-link');
+    for (var i = 0; i < pageitems.length; i++) {
+        pageitems[i].onclick = function () {
             let toPage = this.dateset.toPage;
             document.getElementById("nowPage").value = toPage;
             document.getElementById("formIndex").submit();
@@ -115,9 +118,9 @@
     }
     ///清空按鈕
     document.getElementById('btn_clearQuery').onclick = () => {
-        var element = document.getElementsByClassName('input-query');
-        for (var i = 0; i < element.length; i++) {
-            element[i].value = '';
+        var inputs = document.getElementsByClassName('input-query');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
         }
         document.getElementById("formIndex").submit();
     }

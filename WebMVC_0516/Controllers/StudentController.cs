@@ -20,17 +20,18 @@ namespace WebMVC_0516.Controllers
         [HttpPost]
         public IActionResult Index(Dictionary<string, string> queryDic, int nowPage = 1)
         {
-            //var list = _studentService.GetStudents();
             int count = 10;
             int offset = (nowPage - 1) * count;
             var (total, list) = _studentService.GetStudents(offset, count, queryDic);
 
+            //var list = _studentService.GetStudents();
             ViewData["Total"] = total;
             ViewData["nowPage"] = nowPage;
 
-            ViewData["query_studentName"] = queryDic["query_studentName"];
-            ViewData["query_studentNo"] = queryDic["query_studentNo"];
-            ViewData["query_gitHubLink"] = queryDic["query_gitHubLink"];
+            ViewData["query_studentName"] = queryDic["studentName"];
+            ViewData["query_studentNo"] = queryDic["studentNo"];
+            ViewData["query_gitHubLink"] = queryDic["gitHubLink"];
+
             return View(list);
         }
         public IActionResult Update(string studentNo)
@@ -62,10 +63,19 @@ namespace WebMVC_0516.Controllers
             return View(student);
         }
 
-        public IActionResult Delete(string studentNo)
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(string studentNo)
         {
             _studentService.DeleteStudent(studentNo);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(string studentNo)
+        {
+            var student = _studentService.GetStudentByStudentNo(studentNo);
+            return View(student);
         }
 
         public IActionResult Create()
